@@ -38,15 +38,32 @@
         <div class="space-x-4">
             {% if user.is_authenticated %}
                 <span class="text-sm">Hi, {{ user.username }}</span>
-                <a href="#" class="hover:underline">Logout</a>
+                <a href="{% url 'logout' %}" class="hover:underline">Logout</a>
             {% else %}
                 <a href='{% url "login" %}' class="hover:underline">Login</a>
-                <a href="#" class="hover:underline">Register</a>
+                <a href="{% url 'register' %}" class="hover:underline">Register</a>
             {% endif %}
         </div>
 
     </nav>
-
+    {% if messages %}
+<div class="max-w-7xl mx-auto px-6 mt-4 space-y-3">
+    {% for message in messages %}
+        <div
+            class="
+                px-4 py-3 rounded-md text-white
+                {% if message.tags == 'success' %} bg-green-500
+                {% elif message.tags == 'error' %} bg-red-500
+                {% elif message.tags == 'warning' %} bg-yellow-500 text-black
+                {% else %} bg-blue-500
+                {% endif %}
+            "
+        >
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
     <!-- PAGE CONTENT -->
     <main class="max-w-7xl mx-auto p-6">
         {% block content %}
